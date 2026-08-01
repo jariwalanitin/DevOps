@@ -1,5 +1,4 @@
-from app import hello
+from app import add
 
-
-def test_hello():
-    assert hello() == "Hello"
+def test_add():
+    assert add(2,3)==5
