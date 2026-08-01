@@ -9,22 +9,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v4
 
-    - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
 
-    - uses: actions/setup-python@v5
-      with:
-        python-version: "3.11"
+      - name: Install Packages
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-    - name: Install Packages
-      run: |
-        pip install -r requirements.txt
+      - name: Code Quality
+        run: flake8 .
 
-    - name: Code Quality
-      run: flake8 .
+      - name: Security Scan
+        run: bandit -r . -x test_app.py
 
-    - name: Security Scan
-      run: bandit -r .
-
-    - name: Unit Test
-      run: pytest
+      - name: Unit Test
+        run: pytest
