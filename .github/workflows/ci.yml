@@ -1,0 +1,30 @@
+name: CI Pipeline
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - uses: actions/checkout@v4
+
+    - uses: actions/setup-python@v5
+      with:
+        python-version: "3.11"
+
+    - name: Install Packages
+      run: |
+        pip install -r requirements.txt
+
+    - name: Code Quality
+      run: flake8 .
+
+    - name: Security Scan
+      run: bandit -r .
+
+    - name: Unit Test
+      run: pytest
